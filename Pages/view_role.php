@@ -1,12 +1,13 @@
 <?php  
-
+include('../include/header.php'); 
 
  ?> 
+ </head>
+ <body>
   <div class="app" id="app">
   <?php
- include('../include/header.php'); 
- include('../include/sidebar.php');
-
+ 
+ include('../include/sidebar.php'); 
 ?>
 <!-- ############ LAYOUT START-->
 
@@ -31,7 +32,7 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link" href data-toggle="dropdown">
                     <i class="fa fa-fw fa-plus text-muted"></i>
-                    <span>Planners</span>
+                    <span>Roles</span>
                   </a>
                   <div ui-include="'../views/blocks/dropdown.new.html'"></div>
                 </li>
@@ -94,19 +95,16 @@
         <thead>
           <tr>
             <th  style="width:20%">Id</th>
-            <th  style="width:25%">Name</th>
-            <th  style="width:25%">Date_of_Birth</th>
-            <th  style="width:15%">Phone</th>
-            <th  style="width:15%">Description</th>          
-            <th  style="width:15%">City</th>
-            <th  style="width:15%">Experience</th>
-            <th  style="width:15%">Achievements</th>
-            <th  style="width:15%">Skills</th>
-            <th  style="width:15%">Partner</th>
-            <th  style="width:15%">E-mail</th>
-            <th  style="width:15%">Address</th>
-            <th  style="width:15%">Picture</th>
-            <th  style="width:15%">Status</th>
+            <th  style="width:25%">Role Title</th>
+            <th  style="width:25%">Access</th>
+            <th  style="width:25%">Category</th>
+            <th  style="width:25%">Planner</th>
+            <th  style="width:25%">Designer</th>
+            <th  style="width:25%">Volunteer</th>
+            <th  style="width:25%">Venue</th>
+            <th  style="width:25%">Booking</th>
+            <th  style="width:25%">News</th>
+            <th  style="width:25%">Events</th>
             <th  style="width:15%">Action</th>
             
           </tr>
@@ -116,34 +114,37 @@
         <?php
                    include('db.php');
                    $i=1;
-                    $query = "SELECT * FROM `planner`";
+                    $query = "SELECT * FROM roles";
                     $res = mysqli_query($conn, $query);
+                    $new= array('category','planner','designer','volunteer','venue','booking','news','event');
                     while ($ar = mysqli_fetch_assoc($res)) {
+                        $selected=unserialize($ar['role_roles']);
+                        
                         ?>
           <tr>  
           <th scope="row"><?php echo $i ?></th>
-                            <td><?php echo $ar['planner_name'] ?></td>
-                            <td><?php echo $ar['planner_dob'] ?></td>
-                            <td><?php echo $ar['planner_phone'] ?></td>
-                            <td><?php echo substr( $ar['planner_desc'],0,100) ?>...</td>
-                            <td><?php echo $ar['planner_city'] ?></td>
-                            <td><?php echo $ar['planner_exp'] ?></td>
-                            <td><?php echo $ar['planner_achi'] ?></td>
-                            <td><?php echo $ar['planner_skills'] ?></td>
-                            <td><?php echo $ar['planner_partner'] ?></td>
-                            <td><?php echo $ar['planner_mail'] ?></td>
-                            <td><?php echo $ar['planner_address'] ?></td>
-                            <td> <img style=" width: 100px;height: 50px;" src="../uploads/<?php echo $ar['planner_pic'] ?>" alt="<?php echo $ar['planner_pic'] ?>"></td>
-                            <td><?php echo $ar['planner_status'] ?></td>
+                            <td><?php echo $ar['role_name'] ?></td>
+                            <td><?php echo $ar['role_access'] ?></td>
+                            
+                            <?php 
+                              foreach($new as $s){
+                                
+                               ?>
+                             <td><input type="checkbox"  <?php echo in_array($s ,$selected) ? 'checked' : ' '; ?>></td>
+                                
+                                
+                                <?php
+                              } ?>
+                            
                             <td style="display:flex">
-                            <a class="btn btn-danger" href="delete_planner.php?upid=<?php echo $ar['planner_id'] ?>">Delete</a>
-                            <a class="btn btn-success" href="edit_planner.php?upid=<?php echo $ar['planner_id'] ?>">Update</a>
+                            <a class="btn btn-danger" href="delete_role.php?upid=<?php echo $ar['role_id'] ?>">Delete</a>
+                            <a class="btn btn-success" href="edit_role.php?upid=<?php echo $ar['role_id'] ?>">Update</a>
                             </td>   
         </tr>
         <?php
                   $i+=1; 
                   }
-                    ?>
+                   ?>
         </tbody>
       </table>
     </div>

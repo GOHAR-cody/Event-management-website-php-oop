@@ -27,7 +27,7 @@
                 <li class="nav-item dropdown">
                   <a class="nav-link" href data-toggle="dropdown">
                     <i class="fa fa-fw fa-plus text-muted"></i>
-                    <span>New</span>
+                    <span>Designer Data</span>
                   </a>
                   <div ui-include="'../views/blocks/dropdown.new.html'"></div>
                 </li>

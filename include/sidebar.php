@@ -5,7 +5,7 @@
           <div class="navbar no-radius">
               <!-- brand -->
               <a class="navbar-brand">
-                  <div ui-include="'../assets/images/logo.svg'"></div>
+                  
                   <img src="../assets/images/logo.png" alt="." class="hide">
                   <span class="hidden-folded inline">ivents</span>
               </a>
@@ -22,9 +22,7 @@
                       <li>
                           <a href="dashboard.php">
                               <span class="nav-icon">
-                                  <i class="material-icons">&#xe3fc;
-                                      <span ui-include="'../assets/images/i_0.svg'"></span>
-                                  </i>
+                              <i class="fa fa-home " ></i>
                               </span>
                               <span class="nav-text">Dashboard</span>
                           </a>
@@ -39,9 +37,7 @@
                                   <b class="label rounded label-sm primary">2</b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="material-icons">&#xe5c3;
-                                      <span ui-include="'../assets/images/i_1.svg'"></span>
-                                  </i>
+                              <i class="fa fa-list " ></i>
                               </span>
                               <span class="nav-text">Category</span>
                           </a>
@@ -68,9 +64,7 @@
                                   <b class="label rounded label-sm primary">2</b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="material-icons">&#xe5c3;
-                                      <span ui-include="'../assets/images/i_1.svg'"></span>
-                                  </i>
+                              <i class="fa fa-book " ></i>
                               </span>
                               <span class="nav-text">Planner</span>
                           </a>
@@ -97,9 +91,7 @@
                                   <b class="label rounded label-sm primary">2</b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="material-icons">&#xe5c3;
-                                      <span ui-include="'../assets/images/i_1.svg'"></span>
-                                  </i>
+                              <i class="fa fa-paint-brush " ></i>
                               </span>
                               <span class="nav-text">Designer</span>
                           </a>
@@ -126,9 +118,7 @@
                                   <b class="label rounded label-sm primary">2</b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="material-icons">&#xe5c3;
-                                      <span ui-include="'../assets/images/i_1.svg'"></span>
-                                  </i>
+                              <i class="fa fa-thumbs-o-up"></i>
                               </span>
                               <span class="nav-text">Volunteer</span>
                           </a>
@@ -155,9 +145,7 @@
                                   <b class="label rounded label-sm primary">2</b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="material-icons">&#xe5c3;
-                                      <span ui-include="'../assets/images/i_1.svg'"></span>
-                                  </i>
+                              <i class="fa fa-map-marker"></i>
                               </span>
                               <span class="nav-text">Venue</span>
                           </a>
@@ -175,6 +163,124 @@
                               
                           </ul>
                       </li>
+                      <li>
+                          <a>
+                              <span class="nav-caret">
+                                  <i class="fa fa-caret-down"></i>
+                              </span>
+                              <span class="nav-label">
+                                  <b class="label rounded label-sm primary">2</b>
+                              </span>
+                              <span class="nav-icon">
+                              <i class="fa fa-building"></i>
+                              </span>
+                              <span class="nav-text">Booking</span>
+                          </a>
+                          <ul class="nav-sub">
+                              <li>
+                                  <a href="add_booking.php">
+                                      <span class="nav-text">Add Booking</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="view_booking.php">
+                                      <span class="nav-text">View Booking</span>
+                                  </a>
+                              </li>
+                              
+                          </ul>
+                      </li>
+                      <li>
+                          <a>
+                              <span class="nav-caret">
+                                  <i class="fa fa-caret-down"></i>
+                              </span>
+                              <span class="nav-label">
+                                  <b class="label rounded label-sm primary">2</b>
+                              </span>
+                              <span class="nav-icon">
+                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                              </span>
+                              <span class="nav-text">News</span>
+                          </a>
+                          <ul class="nav-sub">
+                              <li>
+                                  <a href="add_news.php">
+                                      <span class="nav-text">Add News</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="view_news.php">
+                                      <span class="nav-text">View News</span>
+                                  </a>
+                              </li>
+                              
+                          </ul>
+                      </li>
+                      <li>
+                          <a>
+                              <span class="nav-caret">
+                                  <i class="fa fa-caret-down"></i>
+                              </span>
+                              <span class="nav-label">
+                                  <b class="label rounded label-sm primary">2</b>
+                              </span>
+                              <span class="nav-icon">
+                              <i class="fa fa-gift" aria-hidden="true"></i>
+                              </span>
+                              <span class="nav-text">Recent Event</span>
+                          </a>
+                          <ul class="nav-sub">
+                              <li>
+                                  <a href="add_event.php">
+                                      <span class="nav-text">Add Event</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="view_event.php">
+                                      <span class="nav-text">View Event</span>
+                                  </a>
+                              </li>
+                              
+                          </ul>
+                      </li>
+                      <li>
+                          <a>
+                              <span class="nav-caret">
+                                  <i class="fa fa-caret-down"></i>
+                              </span>
+                              <span class="nav-label">
+                                  <b class="label rounded label-sm primary">2</b>
+                              </span>
+                              <span class="nav-icon">
+                              <i class="fa fa-users" aria-hidden="true"></i>
+                              </span>
+                              <span class="nav-text">User Management</span>
+                          </a>
+                          <ul class="nav-sub">
+                              <li>
+                                  <a href="add_role.php">
+                                      <span class="nav-text">Add Role</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="view_role.php">
+                                      <span class="nav-text">View Role</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="add_user.php">
+                                      <span class="nav-text">Add User</span>
+                                  </a>
+                              </li>
+                              <li>
+                                  <a href="view_user.php">
+                                      <span class="nav-text">View User</span>
+                                  </a>
+                              </li>
+                              
+                          </ul>
+                      </li>
                   </ul>
 
               </nav>
@@ -183,10 +289,10 @@
               <div class="nav-fold">
                   <a href="profile.html">
                       <span class="pull-left">
-                          <img src="../assets/images/a0.jpg" alt="..." class="w-40 img-circle">
+                          <img src="../assets/images/1.jpeg" alt="..." class="w-40 img-circle">
                       </span>
                       <span class="clear hidden-folded p-x">
-                          <span class="block _500">Jean Reyes</span>
+                          <span class="block _500">GOHAR</span>
                           <small class="block text-muted"><i class="fa fa-circle text-success m-r-sm"></i>online</small>
                       </span>
                   </a>
