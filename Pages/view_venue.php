@@ -102,28 +102,8 @@
           </tr>
         </thead>
 
-        <tbody>
-        <?php
-                   include('db.php');
-                   $i=1;
-                    $query = "SELECT * FROM `venue`";
-                    $res = mysqli_query($conn, $query);
-                    while ($ar = mysqli_fetch_assoc($res)) {
-                        ?>
-          <tr>  
-          <th scope="row"><?php echo $i ?></th>
-                            <td><?php echo $ar['venue_name'] ?></td>
-                            <td><?php echo $ar['venue_desc'] ?></td>
-                           
-                            <td style="display:flex">
-                            <a class="btn btn-danger" href="delete_venue.php?upid=<?php echo $ar['venue_id'] ?>">Delete</a>
-                            <a class="btn btn-success" href="edit_venue.php?upid=<?php echo $ar['venue_id'] ?>">Update</a>
-                            </td>   
-        </tr>
-        <?php
-                  $i+=1; 
-                  }
-                    ?>
+        <tbody id="tablediv">
+       
         </tbody>
       </table>
     </div>
@@ -145,3 +125,40 @@
  include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 
  ?> 
+<script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_venue.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_venue.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("Venue has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting the venue");
+                }
+            }
+        });
+      });
+        // Handle update button click
+       
+  
+
+
+</script>

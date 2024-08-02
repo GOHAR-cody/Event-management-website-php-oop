@@ -1,40 +1,5 @@
 <?php
 include('db.php'); 
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$cat=mysqli_real_escape_string($conn,$_POST['cat']);
-$desc=mysqli_real_escape_string($conn,$_POST['desc']);
-$date=mysqli_real_escape_string($conn,$_POST['date']);
-$image = $_FILES['imageFile']['name'];
-if(empty($name)||empty($cat)||empty($date)||empty($image)||empty($desc))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-    $new= [];
-    foreach($image as $key => $im){
-    $arr = array('png', 'jpeg', 'jpg');
-    $exe = strtolower(pathinfo($im, PATHINFO_EXTENSION));
-    if(in_array($exe, $arr)){
-    $pic= rand(100,500).".".$exe;
-    if (move_uploaded_file($_FILES['imageFile']['tmp_name'][$key], "../uploads/" . $pic)) {
-     $new[] = $pic;
- }
-    }
- }
-    $imageSerial = serialize($new);
-    $sql="INSERT INTO `events`( `event_title`, `event_desc`, `event_date`, `event_pics`, `event_cat`) VALUES 
-    ('$name','$desc','$date','$imageSerial','$cat')";
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('Event has been created')</script>";
-    } else {
-        echo "<script>alert('Error! creating the Event ')</script>";
-    }
-
-    }
-}
-
 include('../include/header.php'); ?>
 <style>
 .tags-input-container {
@@ -42,7 +7,6 @@ include('../include/header.php'); ?>
     flex-wrap: wrap;
     border: 1px solid #ccc;
     padding: 5px;
-
     cursor: text;
 
 }
@@ -153,7 +117,7 @@ include('../include/sidebar.php');
                 <div class="row " style="margin-left:40em">
                     <div class="col-sm-6">
 
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" id="fields">
                             <div class="box">
                                 <div class="box-header">
                                     <h2>Add Event</h2>
@@ -216,3 +180,27 @@ include('../include/sidebar.php');
     ?>
 
     <script>
+         $(document).ready(function() {
+  $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    $.ajax({
+            url: "ajax/upload_event.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if (data == 1) {
+                    alert("data inserted successfully");
+                }
+                else {
+                   alert("Error uploading data");
+                }
+           
+            }
+        });
+    });
+
+  });
+        </script>

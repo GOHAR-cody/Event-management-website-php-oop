@@ -1,26 +1,4 @@
-<?php  
- include('db.php'); 
- if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-  $ven_name= mysqli_real_escape_string($conn,$_POST['ven_name']);
-  $ven_desc= mysqli_real_escape_string($conn,$_POST['ven_desc']);
- if(empty($ven_name) || empty($ven_desc)){
-  echo "Fill all the fields";
- }
- else{
-   $sql="INSERT INTO `venue`(`venue_name`, `venue_desc`) VALUES ('$ven_name', '$ven_desc')";
-   $result=mysqli_query($conn,$sql);
-   if($result){
-    echo "<script>alert('Venue has been inserted')</script>";
-   }
-   else{
-    echo "<script>alert('Error! Venue not inserted')</script>";;
-   }
- }
-  
- }
 
-
- ?> 
  <?php
  include('../include/header.php'); 
  include('../include/sidebar.php'); 
@@ -104,7 +82,7 @@
 <div class="padding">
   <div class="row " style="margin-left:40em">
     <div class="col-sm-6 " >
-      <form  Method="POST">
+      <form  Method="POST" id="fields">
         <div class="box">
           <div class="box-header">
             <h2>Venue</h2>
@@ -146,3 +124,33 @@
 include('../include/footer.php'); 
 
  ?> 
+ <script>
+  $(document).ready(function() {
+    $(document).ready(function() {
+    $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    console.log(mydata);
+    $.ajax({
+            url: "ajax/upload_venue.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if(data == 0) {
+                   
+                    alert("Error uploading data");
+                }
+                
+                else{
+                    alert("data inserted successfully");
+                }
+            
+                
+            }
+        });
+    });
+});
+  });
+  </script>

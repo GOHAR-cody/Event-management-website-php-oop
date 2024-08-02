@@ -1,38 +1,9 @@
 <?php
-include('db.php'); 
+include('db.php');
 $id = $_GET['upid'];
 $que = "SELECT * FROM `users` WHERE `user_id`='$id'";
 $res = mysqli_query($conn, $que);
 $users = mysqli_fetch_assoc($res);
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$mail=mysqli_real_escape_string($conn,$_POST['mail']);
-$role=mysqli_real_escape_string($conn,$_POST['role']);
-$pwd=mysqli_real_escape_string($conn,$_POST['pwd']);
-$pwd2=mysqli_real_escape_string($conn,$_POST['pwd2']);
-if(empty($name)||empty($mail)
-||empty($pwd)||empty($pwd2)||empty($role))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-    if($pwd==$pwd2){
-    $sql = "UPDATE `users` SET `user_name`='$name', `user_mail`='$mail', `user_pass`='$pwd', `user_role`='$role'";
-   
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('User updated successfully')</script>";
-    } else {
-        echo "<script>alert('User not updated ')</script>";
-    }
-}
-    
-else{
-    echo "<script>alert('passwords donot match')</script>";
-}
-
-}
-}
 include('../include/header.php'); ?>
 <style>   
 .tags-input-container{
@@ -40,7 +11,6 @@ include('../include/header.php'); ?>
     flex-wrap:wrap;
     border:1px solid #ccc;
     padding:5px;
- 
     cursor:text;
 
 }
@@ -147,7 +117,7 @@ include('../include/sidebar.php');
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6">
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" id="fields">
                         <div class="box">
                             <div class="box-header">
                                 <h2>Add User</h2>
@@ -198,7 +168,7 @@ include('../include/sidebar.php');
                             </div>
                           
                         </div>
-                        
+                        <input style="display:none" type="text" name="id" value="<?php echo $users['user_id'] ?>">
                         <div class="dker p-a text-right">
                             <button type="submit" name="submit" class="btn info">Submit</button>
                         </div>
@@ -213,3 +183,32 @@ include('../include/sidebar.php');
 <?php
     include('../include/footer.php'); 
     ?>
+<script> 
+ $(document).ready(function() {
+   
+   $("#fields").on("submit", function(e) {
+       e.preventDefault();    
+       var mydata = new FormData(fields);
+       console.log(mydata);
+       $.ajax({
+           url: "ajax/edit_user.php",
+           method: "POST",
+           data: mydata,
+           processData: false, 
+       contentType: false,
+           success: function(data) {
+               if (data == 1) {
+                   alert("Record updated successfully");        
+               } else {
+                   alert("Error updating the record");
+               }
+              
+           }
+           
+       });
+   });
+});
+
+
+
+</script>

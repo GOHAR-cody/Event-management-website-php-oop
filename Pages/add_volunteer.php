@@ -1,82 +1,5 @@
 <?php
 include('db.php'); 
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$mail=mysqli_real_escape_string($conn,$_POST['mail']);
-$dob=mysqli_real_escape_string($conn,$_POST['dob']);
-$gender=mysqli_real_escape_string($conn,$_POST['gender']);
-$phone=mysqli_real_escape_string($conn,$_POST['phone']);
-$desc=mysqli_real_escape_string($conn,$_POST['desc']);
-$city=mysqli_real_escape_string($conn,$_POST['city']);
-$exp=mysqli_real_escape_string($conn,$_POST['experience']);
-$occ=mysqli_real_escape_string($conn,$_POST['occasions']);
-$achi=mysqli_real_escape_string($conn,$_POST['achievements']);
-$skills=mysqli_real_escape_string($conn,$_POST['skills']);
-$pwd=mysqli_real_escape_string($conn,$_POST['pwd']);
-$address2=mysqli_real_escape_string($conn,$_POST['address2']);
-$img=$_FILES['img']['name'];
-$pwd2=mysqli_real_escape_string($conn,$_POST['pwd2']);
-$radio=mysqli_real_escape_string($conn,$_POST['exampleRadios']);
-if(empty($name)||empty($mail)||empty($dob)||empty($phone)||empty($desc)||empty($gender)||empty($occ)||empty($city)
-|| empty($exp)||empty($achi)||empty($skills)||empty($pwd)||empty($address2)||empty($img)||empty($pwd2)||empty($radio))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-    if($pwd==$pwd2){
-    $arr = array('png', 'jpeg', 'jpg');
-   $exe = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-   if(in_array($exe, $arr)){
-   $pic= rand(100,500).".".$exe;
-   $sql = "INSERT INTO volunteer (
-    volunteer_name, 
-    volunteer_mail, 
-    volunteer_dob, 
-    volunteer_gender, 
-    volunteer_phone, 
-    volunteer_desc, 
-    volunteer_city, 
-    volunteer_experience, 
-    volunteer_occasions, 
-    volunteer_achievements, 
-    volunteer_skills, 
-    volunteer_pwd, 
-    volunteer_address2, 
-    volunteer_img, 
-    volunteer_exampleRadios
-) VALUES (
-    '$name', 
-    '$mail', 
-    '$dob', 
-    '$gender', 
-    '$phone', 
-    '$desc', 
-    '$city', 
-    '$exp', 
-    '$occ', 
-    '$achi', 
-    '$skills', 
-    '$pwd', 
-    '$address2', 
-    '$pic', 
-    '$radio'
-)";
-
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('New record created successfully')</script>";
-        move_uploaded_file($_FILES['img']['tmp_name'], "../uploads/" . $pic);
-    } else {
-        echo "<script>alert('Data not Inserted ')</script>";
-    }
-}
-    }
-else{
-    echo "<script>alert('passwords donot match')</script>";
-}
-
-}
-}
 include('../include/header.php'); ?>
 <style>   
 .tags-input-container{
@@ -191,7 +114,7 @@ include('../include/sidebar.php');
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6">
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" id="fields">
                         <div class="box">
                             <div class="box-header">
                                 <h2>Volunteer</h2>
@@ -360,6 +283,34 @@ include('../include/sidebar.php');
 
 <script>
 $(document).ready(function() {
+    $(document).ready(function() {
+    $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    console.log(mydata);
+    $.ajax({
+            url: "ajax/upload_volunteer.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if(data == 0) {
+                   
+                    alert("Error uploading data");
+                }
+                if(data == 2){
+                    alert("Passwords donot match");
+                }
+                else{
+                    alert("data inserted successfully");
+                }
+            
+                
+            }
+        });
+    });
+});
     // Function to handle tags input
     function handleTagsInput(inputFieldId, containerId, hiddenInputId) {
         const tagsInput = $('#' + inputFieldId);

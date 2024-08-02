@@ -102,27 +102,8 @@ include('../include/header.php');
           </tr>
         </thead>
 
-        <tbody>
-        <?php
-                   include('db.php');
-                   $i=1;
-                    $query = "SELECT * FROM `categories`";
-                    $res = mysqli_query($conn, $query);
-                    while ($ar = mysqli_fetch_assoc($res)) {
-                        ?>
-          <tr>  
-          <th scope="row"><?php echo $i ?></th>
-                            <td><?php echo $ar['cat_name'] ?></td>
-                            <td><?php echo substr( $ar['cat_description'],0,100) ?>...</td>
-                            <td style="display:flex">
-                            <a class="btn btn-danger" href="delete_category.php?upid=<?php echo $ar['cat_id'] ?>">Delete</a>
-                            <a class="btn btn-success" href="edit_category.php?upid=<?php echo $ar['cat_id'] ?>">Update</a>
-                            </td>   
-        </tr>
-        <?php
-                  $i+=1; 
-                  }
-                    ?>
+        <tbody id="tablediv">
+        
         </tbody>
       </table>
     </div>
@@ -135,7 +116,23 @@ include('../include/header.php');
   </div>
   <!-- / -->
 
- 
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Update</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="modalbody">
+     
+      </div>
+      <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ############ LAYOUT END-->
 
@@ -144,3 +141,40 @@ include('../include/header.php');
  include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 
  ?> 
+ <script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_category.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_category.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("Category has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting category");
+                }
+            }
+        });
+      });
+        // Handle update button click
+       
+  
+
+
+</script>

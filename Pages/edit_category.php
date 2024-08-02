@@ -1,36 +1,11 @@
-<?php  
-$id= $_GET['upid'];
- include('db.php'); 
- if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-  $cat_name= mysqli_real_escape_string($conn,$_POST['cat_name']);
-  $cat_desc= mysqli_real_escape_string($conn,$_POST['cat_desc']);
-  if(empty($cat_name) || empty($cat_desc)){
-    echo "Fill all the fields";
-   }
-   else{
-   $sql="UPDATE `categories` SET  `cat_name`='$cat_name', `cat_description`='$cat_desc' WHERE `cat_id`='$id'";
-   $result=mysqli_query($conn,$sql);
-   if($result){
-    echo "<script>alert('Category has been Updated')</script>";
-   }
-   else{
-    echo "<script>alert('Error Updating Category')</script>";
-   }
- }
-  
-}
 
-
- ?> 
  <?php
+ $id=$_GET['upid'];
+ include('db.php');
  include('../include/header.php'); 
  include('../include/sidebar.php'); 
 ?>
   <div class="app" id="app">
-
-
-   
-  
     <div class="app-header white box-shadow">
         <div class="navbar navbar-toggleable-sm flex-row align-items-center">
             <!-- Open side - Naviation on mobile -->
@@ -105,7 +80,7 @@ $id= $_GET['upid'];
 <div class="padding">
   <div class="row " style="margin-left:40em">
     <div class="col-sm-6 " >
-      <form  Method="POST">
+      <form  Method="POST" id="fields">
         <div class="box">
           <div class="box-header">
             <h2>Category</h2>
@@ -127,6 +102,9 @@ $id= $_GET['upid'];
                 <textarea class="form-control"  name="cat_desc" rows="6" data-minwords="6" required placeholder="Add description here"><?php echo $data['cat_description']  ?></textarea>
               </div>
           </div>
+          <div>
+          <input type="text" name="id" style="display:none" value="<?php echo $data['cat_id']  ?>" >
+</div>
           <div class="dker p-a text-right">
             <button type="submit" name="submit" class="btn info">Submit</button>
           </div>
@@ -152,3 +130,32 @@ $id= $_GET['upid'];
 include('../include/footer.php'); 
 
  ?> 
+<script> 
+ $(document).ready(function() {
+   
+   $("#fields").on("submit", function(e) {
+       e.preventDefault();    
+       var mydata = new FormData(fields);
+       console.log(mydata);
+       $.ajax({
+           url: "ajax/edit_category.php",
+           method: "POST",
+           data: mydata,
+           processData: false, 
+       contentType: false,
+           success: function(data) {
+               if (data == 1) {
+                   alert("Record updated successfully");        
+               } else {
+                   alert("Error updating the record");
+               }
+               console.log(data);
+           }
+           
+       });
+   });
+});
+
+
+
+</script>

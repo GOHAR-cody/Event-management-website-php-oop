@@ -82,37 +82,8 @@ include('../include/sidebar.php');
                                 <th style="width:20%">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            // Include database connection
-                            include('db.php');
-                            
-                            // Fetch data from the volunteer table
-                            $query = "SELECT * FROM booking";
-                            $result = mysqli_query($conn, $query);
-                            $i = 1;
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $row['book_name']; ?></td>
-                                    <td><?php echo $row['book_mail']; ?></td>
-                                    <td><?php echo $row['book_date']; ?></td>
-                                    <td><?php echo $row['book_cat']; ?></td>
-                                    <td><?php echo $row['book_phone']; ?></td>
-                                    <td><?php echo $row['book_desc']; ?></td>
-                                    <td><?php echo $row['book_city']; ?></td>
-                                    <td><?php echo $row['book_occ']; ?></td>
-                                    <td><?php echo $row['book_time']; ?></td>
-                                    <td><?php echo $row['book_seats']; ?></td>
-                                    <td><?php echo $row['book_ven']; ?></td>
-                                    <td><?php echo $row['book_status']; ?></td>
-                                    <td style="display:flex">
-                                        <a class="btn btn-danger" href="delete_booking.php?id=<?php echo $row['book_id']; ?>">Delete</a>
-                                        <a class="btn btn-success" href="edit_booking.php?id=<?php echo $row['book_id']; ?>">Update</a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                        <tbody id="tablediv">
+                           
                         </tbody>
                     </table>
                 </div>
@@ -130,3 +101,40 @@ include('../include/sidebar.php');
 // Include footer
 include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 ?>
+<script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_booking.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_booking.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("Booking has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting the booking");
+                }
+            }
+        });
+      });
+        // Handle update button click
+       
+  
+
+
+</script>

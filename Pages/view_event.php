@@ -85,39 +85,8 @@ include('../include/sidebar.php');
                                 <th style="width:15%">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            // Include database connection
-                            include('db.php');
-                            
-                            // Fetch data from the volunteer table
-                            $query = "SELECT * FROM events";
-                            $result = mysqli_query($conn, $query);
-                            $i = 1;
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $i = 1;
-                                    $images = $row['event_pics'];
-                                    $new_arr = unserialize($images);
-                                    ?>
-                                
-                                <tr>
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $row['event_title']; ?></td>
-                                    <td><?php echo $row['event_cat']; ?></td>
-                                    <td>  <div class="image-container">
-                                    <?php foreach ($new_arr as $arr) { ?>
-                                        <img src="../uploads/<?php echo $arr ?>" alt="<?php echo $arr ?>">
-                                    <?php } ?>
-                                </div></td>
-                                    <td><?php echo substr($row['event_desc'], 0, 100) . '...'; ?></td>
-                                   
-                                    <td><?php echo $row['event_date']; ?></td>
-                                    <td style="display:flex">
-                                        <a class="btn btn-danger" href="delete_event.php?id=<?php echo $row['event_id']; ?>">Delete</a>
-                                        <a class="btn btn-success" href="edit_event.php?id=<?php echo $row['event_id']; ?>">Update</a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                        <tbody id="tablediv">
+                           
                         </tbody>
                     </table>
                 </div>
@@ -135,3 +104,39 @@ include('../include/sidebar.php');
 // Include footer
 include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 ?>
+<script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_event.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_event.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("Event  has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting the Event");
+                }
+            }
+        });
+      });
+        
+  
+
+
+</script>

@@ -6,49 +6,7 @@ $sql = "SELECT * FROM `news` WHERE `news_id`='$id'";
 $res = mysqli_query($conn, $sql);
 $news = mysqli_fetch_assoc($res);
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $cat = mysqli_real_escape_string($conn, $_POST['cat']);
-    $desc = mysqli_real_escape_string($conn, $_POST['desc']);
-    $radio = mysqli_real_escape_string($conn, $_POST['exampleRadios']);
-    $image = $_FILES['imageFile']['name'];
 
-    if (empty($name) || empty($cat) || empty($radio) || empty($desc)) {
-        echo "<script>alert('Fill all the fields')</script>";
-    } else {
-        if (!empty($image[0])) {
-            $new = [];
-            foreach ($image as $key => $im) {
-                $arr = ['png', 'jpeg', 'jpg'];
-                $exe = strtolower(pathinfo($im, PATHINFO_EXTENSION));
-                if (in_array($exe, $arr)) {
-                    $pic = rand(100, 500) . "." . $exe;
-                    if (move_uploaded_file($_FILES['imageFile']['tmp_name'][$key], "../uploads/" . $pic)) {
-                        $new[] = $pic;
-                    }
-                }
-            }
-            $imageSerial = serialize($new);
-        } else {
-            $imageSerial = $news['news_pics'];
-        }
-
-        $sql = "UPDATE `news` SET 
-                `news_title`='$name',
-                `news_desc`='$desc',
-                `news_pics`='$imageSerial',
-                `news_cat`='$cat',
-                `news_status`='$radio' 
-                WHERE `news_id`='$id'";
-        
-        $result = mysqli_query($conn, $sql);
-        if ($result) {
-            echo "<script>alert('News has been updated')</script>";
-        } else {
-            echo "<script>alert('Error updating the news')</script>";
-        }
-    }
-}
 
 include('../include/header.php');
 ?>
@@ -136,7 +94,7 @@ include('../include/header.php');
                 <div class="row " style="margin-left:40em">
                     <div class="col-sm-6">
 
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" id="fields">
                             <div class="box">
                                 <div class="box-header">
                                     <h2>News</h2>
@@ -184,6 +142,7 @@ include('../include/header.php');
                                     </div>
                                 </div>
                                 <br>
+                                <input type="text" style="display:none" value="<?php echo $news['news_id']; ?>" name="id" >
                                 <div class="dker p-a text-right">
                                     <button type="submit" name="submit" class="btn info">Submit</button>
                                 </div>
@@ -198,3 +157,32 @@ include('../include/header.php');
     <?php include('../include/footer.php'); ?>
 </body>
 </html>
+<script> 
+ $(document).ready(function() {
+   
+   $("#fields").on("submit", function(e) {
+       e.preventDefault();    
+       var mydata = new FormData(fields);
+       console.log(mydata);
+       $.ajax({
+           url: "ajax/edit_news.php",
+           method: "POST",
+           data: mydata,
+           processData: false, 
+       contentType: false,
+           success: function(data) {
+               if (data == 1) {
+                   alert("Record updated successfully");        
+               } else {
+                   alert("Error updating the record");
+               }
+               console.log(data);
+           }
+           
+       });
+   });
+});
+
+
+
+</script>

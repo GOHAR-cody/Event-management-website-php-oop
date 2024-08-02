@@ -84,40 +84,8 @@ include('../include/sidebar.php');
                                 <th style="width:15%">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            // Include database connection
-                            include('db.php');
-                            
-                            // Fetch data from the volunteer table
-                            $query = "SELECT * FROM volunteer";
-                            $result = mysqli_query($conn, $query);
-                            $i = 1;
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $row['volunteer_name']; ?></td>
-                                    <td><?php echo $row['volunteer_dob']; ?></td>
-                                    <td><?php echo $row['volunteer_phone']; ?></td>
-                                    <td><?php echo substr($row['volunteer_desc'], 0, 100) . '...'; ?></td>
-                                    <td><?php echo $row['volunteer_city']; ?></td>
-                                    <td><?php echo $row['volunteer_experience']; ?></td>
-                                    <td><?php echo $row['volunteer_occasions']; ?></td>
-                                    <td><?php echo $row['volunteer_achievements']; ?></td>
-                                    <td><?php echo $row['volunteer_skills']; ?></td>
-                                    <td><?php echo $row['volunteer_pwd']; ?></td>
-                                    <td><?php echo $row['volunteer_address2']; ?></td>
-                                    <td><img style="width: 100px; height: 50px;" src="../uploads/<?php echo $row['volunteer_img']; ?>" alt="<?php echo $row['volunteer_img']; ?>"></td>
-                                    <td><?php echo $row['volunteer_gender']; ?></td>
-                                    <td><?php echo $row['volunteer_exampleRadios']; ?></td>
-                                    <td><?php echo $row['volunteer_mail']; ?></td>
-                                    <td style="display:flex">
-                                        <a class="btn btn-danger" href="delete_volunteer.php?id=<?php echo $row['volunteer_id']; ?>">Delete</a>
-                                        <a class="btn btn-success" href="edit_volunteer.php?id=<?php echo $row['volunteer_id']; ?>">Update</a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                        <tbody id="tablediv">
+                          
                         </tbody>
                     </table>
                 </div>
@@ -135,3 +103,40 @@ include('../include/sidebar.php');
 // Include footer
 include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 ?>
+<script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_volunteer.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_volunteer.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("Volunteer has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting the volunteer");
+                }
+            }
+        });
+      });
+        // Handle update button click
+       
+  
+
+
+</script>

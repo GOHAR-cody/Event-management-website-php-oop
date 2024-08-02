@@ -1,26 +1,4 @@
-<?php  
- include('db.php'); 
- if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-  $cat_name= mysqli_real_escape_string($conn,$_POST['cat_name']);
-  $cat_desc= mysqli_real_escape_string($conn,$_POST['cat_desc']);
- if(empty($cat_name) || empty($cat_desc)){
-  echo "Fill all the fields";
- }
- else{
-   $sql="INSERT INTO `categories`(`cat_name`, `cat_description`) VALUES ('$cat_name', '$cat_desc')";
-   $result=mysqli_query($conn,$sql);
-   if($result){
-    echo "<script>alert('Category has been inserted')</script>";
-   }
-   else{
-    echo "<script>alert('Error! Category not inserted')</script>";;
-   }
- }
-  
- }
 
-
- ?> 
  <?php
  include('../include/header.php'); 
  include('../include/sidebar.php'); 
@@ -104,7 +82,7 @@
 <div class="padding">
   <div class="row " style="margin-left:40em">
     <div class="col-sm-6 " >
-      <form  Method="POST">
+      <form  Method="POST" id="fields">
         <div class="box">
           <div class="box-header">
             <h2>Category</h2>
@@ -122,7 +100,7 @@
               </div>
           </div>
           <div class="dker p-a text-right">
-            <button type="submit" name="submit" class="btn info">Submit</button>
+            <button type="submit" name="submit" id="submit" class="btn info">Submit</button>
           </div>
         </div>
       </form>
@@ -137,7 +115,6 @@
   </div>
   <!-- / -->
 
- 
 
 <!-- ############ LAYOUT END-->
 
@@ -146,3 +123,30 @@
 include('../include/footer.php'); 
 
  ?> 
+ <script>
+$(document).ready(function() {
+  $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    console.log(mydata);
+    $.ajax({
+            url: "ajax/upload_category.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if (data == 1) {
+                    alert("data inserted successfully");
+                } else {
+                   alert("Error uploading data");
+                }
+                console.log(data);
+            }
+        });
+    });
+
+  });
+
+
+ </script>

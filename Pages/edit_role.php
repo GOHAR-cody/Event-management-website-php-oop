@@ -1,26 +1,8 @@
-<?php  
-include('db.php'); 
-$id = $_GET['upid'];
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-  $role = mysqli_real_escape_string($conn, $_POST['role']);
-  $access = mysqli_real_escape_string($conn, $_POST['access']);
-  $roles = $_POST['exampleRadios'];
-  if(empty($role) || empty($access) || empty($roles)){
-    echo "Fill all the fields";
-  } else {
-    $selected = serialize($roles);
-    $sql = "UPDATE `roles` SET `role_name`='$role', `role_roles`='$selected', `role_access`='$access' WHERE `role_id`='$id'";
-    $result = mysqli_query($conn, $sql);
-    if($result){
-      echo "<script>alert('Role has been added ')</script>";
-    } else {
-      echo "<script>alert('Error! Role not added')</script>";
-    }
-  }
-}
-?>
 
 <?php
+include('db.php'); 
+$id = $_GET['upid'];
+
 include('../include/header.php'); 
 include('../include/sidebar.php'); 
 ?>
@@ -84,7 +66,7 @@ include('../include/sidebar.php');
         <div class="padding">
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6 ">
-                    <form Method="POST">
+                    <form Method="POST" id="fields">
                         <div class="box">
                             <?php
                                 $sql = "SELECT * FROM `roles` WHERE `role_id`='$id'";
@@ -121,6 +103,7 @@ include('../include/sidebar.php');
                                         </div>
                                     </div>
                                 </div>
+                                <input style="display:none" type="text" name="id" value="<?php echo $data['role_id'] ?>">
                                 <div class="dker p-a text-right">
                                     <button type="submit" name="submit" class="btn info">Submit</button>
                                 </div>
@@ -152,4 +135,32 @@ function toggleDiv() {
 document.addEventListener('DOMContentLoaded', function() {
     toggleDiv();
 });
+
+ $(document).ready(function() {
+   
+   $("#fields").on("submit", function(e) {
+       e.preventDefault();    
+       var mydata = new FormData(fields);
+       console.log(mydata);
+       $.ajax({
+           url: "ajax/edit_role.php",
+           method: "POST",
+           data: mydata,
+           processData: false, 
+       contentType: false,
+           success: function(data) {
+               if (data == 1) {
+                   alert("Record updated successfully");        
+               } else {
+                   alert("Error updating the record");
+               }
+               
+           }
+           
+       });
+   });
+});
+
+
+
 </script>

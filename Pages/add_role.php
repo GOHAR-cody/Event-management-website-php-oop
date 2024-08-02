@@ -1,23 +1,4 @@
-<?php  
-include('db.php'); 
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-  $role = mysqli_real_escape_string($conn, $_POST['role']);
-  $access = mysqli_real_escape_string($conn, $_POST['access']);
-  $roles =  $_POST['exampleRadios'];
-  if(empty($role) || empty($access)||empty($roles)){
-    echo "Fill all the fields";
-  } else {
-    $selected=serialize($roles);
-    $sql = "INSERT INTO `roles`(`role_name`, `role_access`, `role_roles`) VALUES ('$role','$access', '$selected')";
-    $result = mysqli_query($conn, $sql);
-    if($result){
-      echo "<script>alert('Role has been added ')</script>";
-    } else {
-      echo "<script>alert('Error! Role not added')</script>";
-    }
-  }
-}
-?>
+
 
 <?php
 include('../include/header.php'); 
@@ -83,7 +64,7 @@ include('../include/header.php');
         <div class="padding">
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6 ">
-                    <form Method="POST">
+                    <form Method="POST" id="fields">
                         <div class="box">
                        
                             <div class="box-header">
@@ -156,6 +137,32 @@ include('../include/footer.php');
 ?>
 
 <script>
+    $(document).ready(function() {
+    $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    console.log(mydata);
+    $.ajax({
+            url: "ajax/upload_role.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if(data == 0) {
+                   
+                    alert("Error uploading data");
+                }
+               
+                else{
+                    alert("data inserted successfully");
+                }
+            
+                
+            }
+        });
+    });
+});
 function toggleDiv() {
     let val1 = document.getElementById("opt").value;
     let divShow = document.getElementById("showdiv");

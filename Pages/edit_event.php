@@ -46,7 +46,7 @@ $image = $_FILES['imageFile']['name'];
     }
 }
 
-include('../include/header.php'); ?>sss
+include('../include/header.php'); ?>
 <style>
 .tags-input-container {
     display: flex;
@@ -164,7 +164,7 @@ include('../include/sidebar.php');
                 <div class="row " style="margin-left:40em">
                     <div class="col-sm-6">
 
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" id="fields">
                             <div class="box">
                                 <div class="box-header">
                                     <h2>Add Event</h2>
@@ -209,7 +209,7 @@ include('../include/sidebar.php');
                                     </div>
 
 
-                                    
+                                    <input type="text" style="display:none" value="<?php echo $event['event_id']; ?>" name="id" >
                                 </div>
                                 <br>
                                 <div class="dker p-a text-right">
@@ -227,4 +227,32 @@ include('../include/sidebar.php');
     include('../include/footer.php'); 
     ?>
 
-    <script>
+<script> 
+ $(document).ready(function() {
+   
+   $("#fields").on("submit", function(e) {
+       e.preventDefault();    
+       var mydata = new FormData(fields);
+       console.log(mydata);
+       $.ajax({
+           url: "ajax/edit_event.php",
+           method: "POST",
+           data: mydata,
+           processData: false, 
+       contentType: false,
+           success: function(data) {
+               if (data == 1) {
+                   alert("Record updated successfully");        
+               } else {
+                   alert("Error updating the record");
+               }
+               console.log(data);
+           }
+           
+       });
+   });
+});
+
+
+
+</script>

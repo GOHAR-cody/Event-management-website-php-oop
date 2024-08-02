@@ -88,39 +88,8 @@ include('../include/sidebar.php');
                                 <th style="width:15%">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php
-                            // Include database connection
-                            include('db.php');
+                        <tbody id="tablediv">
                             
-                            // Fetch data from the volunteer table
-                            $query = "SELECT * FROM news";
-                            $result = mysqli_query($conn, $query);
-                            $i = 1;
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $i = 1;
-                                    $images = $row['news_pics'];
-                                    $new_arr = unserialize($images);
-                                    ?>
-                                
-                                <tr>
-                                    <td><?php echo $i++; ?></td>
-                                    <td><?php echo $row['news_title']; ?></td>
-                                    <td><?php echo $row['news_cat']; ?></td>
-                                    <td>  <div class="image-container">
-                                    <?php foreach ($new_arr as $arr) { ?>
-                                        <img src="../uploads/<?php echo $arr ?>" alt="<?php echo $arr ?>">
-                                    <?php } ?>
-                                </div></td>
-                                    <td><?php echo substr($row['news_desc'], 0, 100) . '...'; ?></td>
-                                   
-                                    <td><?php echo $row['news_status']; ?></td>
-                                    <td style="display:flex">
-                                        <a class="btn btn-danger" href="delete_news.php?id=<?php echo $row['news_id']; ?>">Delete</a>
-                                        <a class="btn btn-success" href="edit_news.php?id=<?php echo $row['news_id']; ?>">Update</a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
                         </tbody>
                     </table>
                 </div>
@@ -138,3 +107,39 @@ include('../include/sidebar.php');
 // Include footer
 include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 ?>
+<script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_news.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_news.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("News has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting the News");
+                }
+            }
+        });
+      });
+        
+  
+
+
+</script>

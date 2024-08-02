@@ -103,31 +103,8 @@
           </tr>
         </thead>
 
-        <tbody>
-        <?php
-                   include('db.php');
-                   $i=1;
-                    //$query = "SELECT * FROM `users`";
-                    $query = "SELECT users.*, roles.role_name FROM `users` INNER JOIN `roles` ON users.user_role = roles.role_id";
-
-                    $res = mysqli_query($conn, $query);
-                    while ($ar = mysqli_fetch_assoc($res)) {
-                        ?>
-          <tr>  
-          <th scope="row"><?php echo $i ?></th>
-                            <td><?php echo $ar['user_name'] ?></td>
-                            <td><?php echo $ar['user_mail'] ?></td>
-                            <td><?php echo $ar['role_name'] ?></td>
-                           
-                            <td style="display:flex">
-                            <a class="btn btn-danger" href="delete_user.php?upid=<?php echo $ar['user_id'] ?>">Delete</a>
-                            <a class="btn btn-success" href="edit_user.php?upid=<?php echo $ar['user_id'] ?>">Update</a>
-                            </td>   
-        </tr>
-        <?php
-                  $i+=1; 
-                  }
-                    ?>
+        <tbody id="tablediv">
+        
         </tbody>
       </table>
     </div>
@@ -149,3 +126,40 @@
  include $_SERVER['DOCUMENT_ROOT'] . "/flatkit/include/footer.php";
 
  ?> 
+ <script>
+ function loaddata() {
+    $.ajax({
+        url: "ajax/show_user.php",
+        type: "POST",
+        processData: false, 
+        contentType: false, 
+        success: function(data) {
+            $("#tablediv").html(data);
+        }
+    });
+}
+loaddata();
+$(document).on("click", ".delete", function(e) {
+        e.preventDefault();
+        var id = $(this).data("del");
+
+        $.ajax({
+            url: "ajax/delete_user.php",
+            method: "POST",
+            data: { id: id },
+            success: function(data) {
+                if (data == 1) {
+                  alert("User has been deleted");
+                    loaddata();
+                } else {
+                    alert("Error deleting the user");
+                }
+            }
+        });
+      });
+        // Handle update button click
+       
+  
+
+
+</script>

@@ -1,39 +1,5 @@
 <?php
 include('db.php'); 
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$cat=mysqli_real_escape_string($conn,$_POST['cat']);
-$desc=mysqli_real_escape_string($conn,$_POST['desc']);
-$radio=mysqli_real_escape_string($conn,$_POST['exampleRadios']);
-$image = $_FILES['imageFile']['name'];
-if(empty($name)||empty($cat)||empty($radio)||empty($image)||empty($desc))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-    $new= [];
-    foreach($image as $key => $im){
-    $arr = array('png', 'jpeg', 'jpg');
-    $exe = strtolower(pathinfo($im, PATHINFO_EXTENSION));
-    if(in_array($exe, $arr)){
-    $pic= rand(100,500).".".$exe;
-    if (move_uploaded_file($_FILES['imageFile']['tmp_name'][$key], "../uploads/" . $pic)) {
-     $new[] = $pic;
- }
-    }
- }
-    $imageSerial = serialize($new);
-    $sql="INSERT INTO `news`( `news_title`, `news_desc`, `news_pics`, `news_cat`, `news_status`) VALUES ('$name','$desc','$imageSerial','$cat','$radio')";
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('News has been created')</script>";
-    } else {
-        echo "<script>alert('Error! creating the news ')</script>";
-    }
-
-    }
-}
-
 include('../include/header.php'); ?>
 <style>
 .tags-input-container {
@@ -152,7 +118,7 @@ include('../include/sidebar.php');
                 <div class="row " style="margin-left:40em">
                     <div class="col-sm-6">
 
-                        <form method="POST" enctype="multipart/form-data">
+                        <form method="POST" id="fields">
                             <div class="box">
                                 <div class="box-header">
                                     <h2>News</h2>
@@ -212,7 +178,7 @@ include('../include/sidebar.php');
                                 </div>
                                 <br>
                                 <div class="dker p-a text-right">
-                                    <button type="submit" name="submit" class="btn info">Submit</button>
+                                    <button type="submit" id="submit" name="submit" class="btn info">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -227,3 +193,27 @@ include('../include/sidebar.php');
     ?>
 
     <script>
+        $(document).ready(function() {
+  $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    $.ajax({
+            url: "ajax/upload_news.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if (data == 1) {
+                    alert("data inserted successfully");
+                }
+                else {
+                   alert("Error uploading data");
+                }
+             
+            }
+        });
+    });
+
+  });
+        </script>

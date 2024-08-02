@@ -4,43 +4,6 @@ $id= $_GET['id'];
 $sql="SELECT * FROM `booking` WHERE `book_id`='$id'";
 $res = mysqli_query($conn, $sql);
 $booking= mysqli_fetch_assoc($res);
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$mail=mysqli_real_escape_string($conn,$_POST['mail']);
-$date=mysqli_real_escape_string($conn,$_POST['date']);
-$cat=mysqli_real_escape_string($conn,$_POST['cat']);
-$phone=mysqli_real_escape_string($conn,$_POST['phone']);
-$desc=mysqli_real_escape_string($conn,$_POST['desc']);
-$city=mysqli_real_escape_string($conn,$_POST['city']);
-$occ=mysqli_real_escape_string($conn,$_POST['occ']);
-$time=mysqli_real_escape_string($conn,$_POST['time']);
-$seats=mysqli_real_escape_string($conn,$_POST['seats']);
-$ven=mysqli_real_escape_string($conn,$_POST['ven']);
-$radio=mysqli_real_escape_string($conn,$_POST['exampleRadios']);
-if(empty($name)||empty($mail)||empty($date)||empty($phone)||empty($desc)||empty($cat)||empty($occ)||empty($city)
-|| empty($time)||empty($seats)||empty($ven)||empty($radio))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-   
-   $sql=" UPDATE `booking` SET `book_name`='$name',`book_phone`='$phone',
-    `book_mail`='$mail',`book_date`='$date',`book_time`='$time',`book_desc`='$desc'
-    ,`book_status`='$radio',`book_city`='$city'
-    ,`book_occ`='$occ',`book_seats`='$seats',`book_ven`='$ven',`book_cat`='$cat' WHERE `book_id`= '$id'";
-    
-
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('Booking has been Updated')</script>";
-    } else {
-        echo "<script>alert('Update Error!!')</script>";
-    }
-
-    }
-
-
-}
 
 include('../include/header.php'); ?>
 <style>   
@@ -157,7 +120,7 @@ include('../include/sidebar.php');
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6">
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" id="fields">
                         <div class="box">
                             <div class="box-header">
                                 <h2>Booking</h2>
@@ -270,6 +233,7 @@ include('../include/sidebar.php');
                             </div>
                         </div>
                         <br>
+                        <input style="display:none" type="text" name="id" value="<?php echo $booking['book_id'] ?>">
                         <div class="dker p-a text-right">
                             <button type="submit" name="submit" class="btn info">Submit</button>
                         </div>
@@ -285,4 +249,32 @@ include('../include/sidebar.php');
     include('../include/footer.php'); 
     ?>
 
-<script>
+<script> 
+ $(document).ready(function() {
+   
+   $("#fields").on("submit", function(e) {
+       e.preventDefault();    
+       var mydata = new FormData(fields);
+       console.log(mydata);
+       $.ajax({
+           url: "ajax/edit_booking.php",
+           method: "POST",
+           data: mydata,
+           processData: false, 
+       contentType: false,
+           success: function(data) {
+               if (data == 1) {
+                   alert("Record updated successfully");        
+               } else {
+                   alert("Error updating the record");
+               }
+               console.log(data);
+           }
+           
+       });
+   });
+});
+
+
+
+</script>

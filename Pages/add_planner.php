@@ -1,49 +1,5 @@
 <?php
 include('db.php'); 
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$mail=mysqli_real_escape_string($conn,$_POST['mail']);
-$dob=mysqli_real_escape_string($conn,$_POST['dob']);
-$phone=mysqli_real_escape_string($conn,$_POST['phone']);
-$desc=mysqli_real_escape_string($conn,$_POST['desc']);
-$city=mysqli_real_escape_string($conn,$_POST['city']);
-$exp=mysqli_real_escape_string($conn,$_POST['experience']);
-$achi=mysqli_real_escape_string($conn,$_POST['achievements']);
-$skill=mysqli_real_escape_string($conn,$_POST['skills']);
-$partner=mysqli_real_escape_string($conn,$_POST['partners']);
-$pwd=mysqli_real_escape_string($conn,$_POST['pwd']);
-$address2=mysqli_real_escape_string($conn,$_POST['address2']);
-$img=$_FILES['img']['name'];
-$pwd2=mysqli_real_escape_string($conn,$_POST['pwd2']);
-$radio=mysqli_real_escape_string($conn,$_POST['exampleRadios']);
-if(empty($name)||empty($mail)||empty($dob)||empty($phone)||empty($desc)||empty($city)
-|| empty($exp)||empty($achi)||empty($skill)||empty($partner)||empty($pwd)||empty($address2)||empty($img)||empty($pwd2)||empty($radio))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-    if($pwd==$pwd2){
-    $arr = array('png', 'jpeg', 'jpg');
-   $exe = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-   if(in_array($exe, $arr)){
-   $pic= rand(100,500).".".$exe;
-    $sql = "INSERT INTO `planner` (`planner_name`, `planner_mail`, `planner_dob`, `planner_phone`, `planner_desc`, `planner_city`, `planner_exp`, `planner_achi`, `planner_skills`,`planner_partner`, `planner_pwd`, `planner_address`, `planner_pic`, `planner_status`) 
-    VALUES ('$name', '$mail', '$dob', '$phone', '$desc', '$city', '$exp', '$achi', '$skill', '$partner', '$pwd', '$address2', '$pic', '$radio')";
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('New record created successfully')</script>";
-        move_uploaded_file($_FILES['img']['tmp_name'], "../uploads/" . $pic);
-    } else {
-        echo "<script>alert('Data not Inserted ')</script>";
-    }
-}
-    }
-else{
-    echo "<script>alert('passwords donot match')</script>";
-}
-
-}
-}
 include('../include/header.php'); ?>
 <style>   
 .tags-input-container{
@@ -158,7 +114,7 @@ include('../include/sidebar.php');
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6">
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" id="fields">
                         <div class="box">
                             <div class="box-header">
                                 <h2>Planner</h2>
@@ -282,7 +238,7 @@ include('../include/sidebar.php');
                         </div>
                         <br>
                         <div class="dker p-a text-right">
-                            <button type="submit" name="submit" class="btn info">Submit</button>
+                            <button type="submit" name="submit" id="submit" class="btn info">Submit</button>
                         </div>
                 </div>
                 </form>
@@ -298,6 +254,32 @@ include('../include/sidebar.php');
 
 <script>
 $(document).ready(function() {
+    $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    console.log(mydata);
+    $.ajax({
+            url: "ajax/upload_planner.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if(data == 0) {
+                   
+                    alert("Error uploading data");
+                }
+                if(data == 2){
+                    alert("Passwords donot match");
+                }
+                else{
+                    alert("data inserted successfully");
+                }
+            
+                
+            }
+        });
+    });
     // Function to handle tags input
     function handleTagsInput(inputFieldId, containerId, hiddenInputId) {
         const tagsInput = $('#' + inputFieldId);
@@ -342,6 +324,13 @@ $(document).ready(function() {
     handleTagsInput('achievements-tags-input', 'achievements-tags-input-container', 'achievements-hidden-tags');
     handleTagsInput('skills-tags-input', 'skills-tags-input-container', 'skills-hidden-tags');
     handleTagsInput('partners-tags-input', 'partners-tags-input-container', 'partners-hidden-tags');
+
+    
 });
+
+
+  
+
+
 
 </script>

@@ -1,34 +1,5 @@
 <?php
-include('db.php'); 
-if($_SERVER['REQUEST_METHOD']=='POST' && isset($_POST['submit'])){
-$name=mysqli_real_escape_string($conn,$_POST['name']);
-$mail=mysqli_real_escape_string($conn,$_POST['mail']);
-$role=mysqli_real_escape_string($conn,$_POST['role']);
-$pwd=mysqli_real_escape_string($conn,$_POST['pwd']);
-$pwd2=mysqli_real_escape_string($conn,$_POST['pwd2']);
-if(empty($name)||empty($mail)
-||empty($pwd)||empty($pwd2)||empty($role))
-{
-  echo "<script>alert('fill all the fields')</script>";
-}
-else {
-    if($pwd==$pwd2){
-    $sql = "INSERT INTO `users` (`user_name`, `user_mail`, `user_pass`, `user_role`) 
-    VALUES ('$name', '$mail',  '$pwd', '$role')";
-    $result=mysqli_query($conn, $sql);
-    if($result) {
-        echo "<script>alert('User created successfully')</script>";
-    } else {
-        echo "<script>alert('User not created ')</script>";
-    }
-}
-    
-else{
-    echo "<script>alert('passwords donot match')</script>";
-}
-
-}
-}
+include('db.php');
 include('../include/header.php'); ?>
 <style>   
 .tags-input-container{
@@ -143,7 +114,7 @@ include('../include/sidebar.php');
             <div class="row " style="margin-left:40em">
                 <div class="col-sm-6">
 
-                    <form method="POST" enctype="multipart/form-data">
+                    <form method="POST" id="fields">
                         <div class="box">
                             <div class="box-header">
                                 <h2>Add User</h2>
@@ -207,3 +178,31 @@ include('../include/sidebar.php');
 <?php
     include('../include/footer.php'); 
     ?>
+<script>
+  $(document).ready(function() {
+    $("#fields").on("submit", function(e) {
+    e.preventDefault();
+    var mydata = new FormData(this);
+    console.log(mydata);
+    $.ajax({
+            url: "ajax/upload_user.php",
+            method: "POST",
+            data: mydata,
+            processData: false, 
+        contentType: false, 
+            success: function(data) {
+                if(data == 0) {
+                   
+                    alert("Error uploading data");
+                }
+               
+                else{
+                    alert("data inserted successfully");
+                }
+            
+                
+            }
+        });
+    });
+});
+    </script>
