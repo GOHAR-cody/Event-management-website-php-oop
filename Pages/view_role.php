@@ -105,6 +105,8 @@ include('../include/header.php');
             <th  style="width:25%">Booking</th>
             <th  style="width:25%">News</th>
             <th  style="width:25%">Events</th>
+            <th  style="width:25%">Client</th>
+            <th  style="width:25%">Payment</th>
             <th  style="width:15%">Action</th>
             
           </tr>
@@ -146,24 +148,8 @@ include('../include/header.php');
     });
 }
 loaddata();
-$(document).on("click", ".delete", function(e) {
-        e.preventDefault();
-        var id = $(this).data("del");
 
-        $.ajax({
-            url: "ajax/delete_role.php",
-            method: "POST",
-            data: { id: id },
-            success: function(data) {
-                if (data == 1) {
-                  alert("Role has been deleted");
-                    loaddata();
-                } else {
-                    alert("Error deleting the role");
-                }
-            }
-        });
-      });
+      
         // Handle update button click
        
   

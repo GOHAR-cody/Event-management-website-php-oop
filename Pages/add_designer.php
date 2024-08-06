@@ -265,14 +265,14 @@ include('../include/sidebar.php');
                                 <div style="display: flex; margin-left: 4em;">
                                     <div class="form-check ">
                                         <input class="form-check-input  " type="radio" name="exampleRadios"
-                                            id="exampleRadios1" value="pending" checked>
+                                            id="exampleRadios1" value="pending" >
                                         <label class="form-check-label  " for="exampleRadios1">
                                             Pending
                                         </label>
                                     </div>
                                     <div class="form-check" style=" margin-left: 4em;">
                                         <input class="form-check-input  " type="radio" name="exampleRadios"
-                                            id="exampleRadios2" value="confirm">
+                                            id="exampleRadios2" value="confirm" checked>
                                         <label class="form-check-label  " for="exampleRadios2">
                                             Confirm</label>
                                     </div>
@@ -317,7 +317,7 @@ $(document).ready(function() {
                     alert("Passwords donot match");
                 }
                 if(data == 3){
-                    alert("Fill all the fields");
+                    alert("Email already exists");
                 }
                 else{
                     alert("data inserted successfully");

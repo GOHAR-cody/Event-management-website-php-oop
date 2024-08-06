@@ -6,7 +6,7 @@
   <div class="app" id="app">
 <!-- ############ LAYOUT START-->
 <?php
-include('../include/sidebar.php'); 
+ include('../include/sidebar.php'); 
 ?>
   <!-- content -->
   <div id="content" class="app-content box-shadow-z0" role="main">

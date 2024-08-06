@@ -341,8 +341,7 @@ $(document).ready(function() {
    
 });
 
-</script>
-<script> 
+
  $(document).ready(function() {
    
    $("#fields").on("submit", function(e) {

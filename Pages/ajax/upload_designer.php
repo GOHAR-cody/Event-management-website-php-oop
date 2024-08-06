@@ -22,8 +22,23 @@ $radio=mysqli_real_escape_string($conn,$_POST['exampleRadios']);
 if(empty($name)||empty($mail)||empty($dob)||empty($phone)||empty($desc)||empty($gender)||empty($ordered)||empty($city)
 || empty($exp)||empty($company)||empty($color)||empty($tools)||empty($content)||empty($number)||empty($pwd)||empty($address2)||empty($img)||empty($pwd2)||empty($radio))
 {
-  echo 3;
+  echo 4;
 }
+else {
+    // Check if the email already exists in any of the three tables
+    $checkEmailQuery = "
+    SELECT 'planner' AS source FROM planner WHERE planner_mail = '$mail'
+    UNION
+    SELECT 'designer' AS source FROM designer WHERE designer_mail = '$mail'
+    UNION
+    SELECT 'volunteer' AS source FROM volunteer WHERE volunteer_mail = '$mail'
+";
+$emailResult = mysqli_query($conn, $checkEmailQuery);
+
+if (mysqli_num_rows($emailResult) > 0) {
+   
+    echo 3;
+} 
 else {
     if($pwd==$pwd2){
     $arr = array('png', 'jpeg', 'jpg');
@@ -69,6 +84,12 @@ else {
         '$pic', 
         '$radio'
     )";
+    if($radio == 'confirm'){
+        $sql="INSERT INTO `login_users`( `login_mail`, `login_pass`,`login_role`) VALUES ('$mail', '$pwd', 4)";
+        $res=mysqli_query($conn,$sql);
+       
+    }
+    
     $result=mysqli_query($conn, $sql);
     if($result) {
         echo 1;
@@ -82,5 +103,6 @@ else{
     echo 2;
 }
 
+}
 }
 ?>

@@ -12,8 +12,8 @@ if(empty($name)||empty($mail)
 }
 else {
     if($pwd==$pwd2){
-    $sql = "INSERT INTO `users` (`user_name`, `user_mail`, `user_pass`, `user_role`) 
-    VALUES ('$name', '$mail',  '$pwd', '$role')";
+    $sql = "INSERT INTO `login_users` ( `login_mail`, `login_pass`, `login_role`) 
+    VALUES ( '$mail',  '$pwd', '$role')";
     $result=mysqli_query($conn, $sql);
     if($result) {
         echo 1;

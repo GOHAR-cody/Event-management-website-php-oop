@@ -96,7 +96,11 @@ include('../include/sidebar.php');
                                         <div style=" margin-left: 4em;">
                                             <?php foreach($new as $value) { ?>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios<?php echo $value; ?>" value="<?php echo $value; ?>" <?php echo (in_array($value, $stored_roles)) ? 'checked' : ''; ?>>
+                                                    <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios<?php echo $value; ?>" value="<?php echo $value; ?>" <?php if(!empty($stored_roles)){
+                                                        echo (in_array($value, $stored_roles)) ? 'checked' : '';}
+                                                        else{
+                                                            echo 'checked';}?>>
+                                                        
                                                     <label class="form-check-label" for="exampleRadios<?php echo $value; ?>"><?php echo ucfirst($value); ?></label>
                                                 </div>
                                             <?php } ?>
@@ -150,7 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
        contentType: false,
            success: function(data) {
                if (data == 1) {
-                   alert("Record updated successfully");        
+                   alert("Record updated successfully");     
+                   $("#fields").trigger("reset");   
                } else {
                    alert("Error updating the record");
                }

@@ -87,7 +87,7 @@ include('../include/header.php');
                                     <div class="form-group">
                                         <div style=" margin-left: 4em;">
                                             <div class="form-check ">
-                                                <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios1" value="category" checked>
+                                                <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios1" value="category" >
                                                 <label class="form-check-label" for="exampleRadios1">Category</label>
                                             </div>
                                             <div class="form-check" style=" ">
@@ -117,6 +117,14 @@ include('../include/header.php');
                                             <div class="form-check" style=" ">
                                                 <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios8" value="event">
                                                 <label class="form-check-label" for="exampleRadios8">Event</label>
+                                            </div>
+                                            <div class="form-check" style=" ">
+                                                <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios8" value="client">
+                                                <label class="form-check-label" for="exampleRadios8">Client</label>
+                                            </div>
+                                            <div class="form-check" style=" ">
+                                                <input class="form-check-input" type="checkbox" name="exampleRadios[]" id="exampleRadios8" value="payment">
+                                                <label class="form-check-label" for="exampleRadios8">Payment</label>
                                             </div>
                                         </div>
                                     </div>
@@ -149,13 +157,13 @@ include('../include/footer.php');
             processData: false, 
         contentType: false, 
             success: function(data) {
-                if(data == 0) {
-                   
-                    alert("Error uploading data");
+                if(data == 1) {
+                    alert("data inserted successfully");
+                    $("#fields").trigger("reset");
                 }
                
                 else{
-                    alert("data inserted successfully");
+                    alert("Error uploading data");
                 }
             
                 

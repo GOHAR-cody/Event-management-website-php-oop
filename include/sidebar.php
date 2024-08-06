@@ -1,3 +1,12 @@
+  <?php
+include('../Pages/db.php');
+  $role=$_SESSION['role'];
+  $sql= "SELECT * FROM `roles` WHERE `role_id`='$role' ";
+  $result = mysqli_query($conn, $sql);
+  $ro= mysqli_fetch_assoc($result);
+  $array= unserialize($ro['role_roles']);
+
+  ?>
   <!-- aside -->
   <div id="aside" class="app-aside modal nav-dropdown">
       <!-- fluid app aside -->
@@ -5,7 +14,7 @@
           <div class="navbar no-radius">
               <!-- brand -->
               <a class="navbar-brand">
-                  
+
                   <img src="../assets/images/logo.png" alt="." class="hide">
                   <span class="hidden-folded inline">ivents</span>
               </a>
@@ -22,22 +31,28 @@
                       <li>
                           <a href="dashboard.php">
                               <span class="nav-icon">
-                              <i class="fa fa-home " ></i>
+                                  <i class="fa fa-home "></i>
                               </span>
                               <span class="nav-text">Dashboard</span>
                           </a>
                       </li>
-
+                      <?php 
+                     
+                      if( $ro['role_access']=='all'|| in_array('category',$array )){
+                        $sql="SELECT * FROM `categories`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+ ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums;  ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-list " ></i>
+                                  <i class="fa fa-list "></i>
                               </span>
                               <span class="nav-text">Category</span>
                           </a>
@@ -52,19 +67,26 @@
                                       <span class="nav-text">Categories</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('planner',$array )){
+                        $sql="SELECT * FROM `planner`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums; ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-book " ></i>
+                                  <i class="fa fa-book "></i>
                               </span>
                               <span class="nav-text">Planner</span>
                           </a>
@@ -79,19 +101,26 @@
                                       <span class="nav-text">View planner</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('designer',$array )){
+                        $sql="SELECT * FROM `designer`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums ; ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-paint-brush " ></i>
+                                  <i class="fa fa-paint-brush "></i>
                               </span>
                               <span class="nav-text">Designer</span>
                           </a>
@@ -106,19 +135,26 @@
                                       <span class="nav-text">View Designer</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('volunteer',$array )){
+                        $sql="SELECT * FROM `volunteer`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums; ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-thumbs-o-up"></i>
+                                  <i class="fa fa-thumbs-o-up"></i>
                               </span>
                               <span class="nav-text">Volunteer</span>
                           </a>
@@ -133,19 +169,26 @@
                                       <span class="nav-text">View Volunteer</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('venue',$array )){
+                        $sql="SELECT * FROM `venue`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums ; ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-map-marker"></i>
+                                  <i class="fa fa-map-marker"></i>
                               </span>
                               <span class="nav-text">Venue</span>
                           </a>
@@ -160,19 +203,26 @@
                                       <span class="nav-text">View Venue</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('booking',$array )){
+                        $sql="SELECT * FROM `booking`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums ; ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-building"></i>
+                                  <i class="fa fa-building"></i>
                               </span>
                               <span class="nav-text">Booking</span>
                           </a>
@@ -187,19 +237,26 @@
                                       <span class="nav-text">View Booking</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('news',$array )){
+                        $sql="SELECT * FROM `news`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums  ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                  <i class="fa fa-newspaper-o" aria-hidden="true"></i>
                               </span>
                               <span class="nav-text">News</span>
                           </a>
@@ -214,19 +271,26 @@
                                       <span class="nav-text">View News</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('event',$array )){
+                        $sql="SELECT * FROM `events`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
                               <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
+                                  <b class="label rounded label-sm primary"><?php echo $nums ; ?></b>
                               </span>
                               <span class="nav-icon">
-                              <i class="fa fa-gift" aria-hidden="true"></i>
+                                  <i class="fa fa-gift" aria-hidden="true"></i>
                               </span>
                               <span class="nav-text">Recent Event</span>
                           </a>
@@ -241,19 +305,21 @@
                                       <span class="nav-text">View Event</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                      if( $ro['role_access']=='all'|| in_array('client',$array )){
+                      ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
                               </span>
-                              <span class="nav-label">
-                                  <b class="label rounded label-sm primary">2</b>
-                              </span>
+                              
                               <span class="nav-icon">
-                              <i class="fa fa-users" aria-hidden="true"></i>
+                                  <i class="fa fa-users" aria-hidden="true"></i>
                               </span>
                               <span class="nav-text">User Management</span>
                           </a>
@@ -278,9 +344,12 @@
                                       <span class="nav-text">View User</span>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
+                      <?php 
+                      }
+                     ?>
                   </ul>
 
               </nav>

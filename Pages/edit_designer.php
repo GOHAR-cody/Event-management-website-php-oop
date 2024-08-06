@@ -339,7 +339,7 @@ $(document).ready(function() {
                } else {
                    alert("Error updating the record");
                }
-               
+             
            }
            
        });
