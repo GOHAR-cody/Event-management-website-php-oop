@@ -43,7 +43,7 @@ else {
     $sql = "INSERT INTO `planner` (`planner_name`, `planner_mail`, `planner_dob`, `planner_phone`, `planner_desc`, `planner_city`, `planner_exp`, `planner_achi`, `planner_skills`,`planner_partner`, `planner_pwd`, `planner_address`, `planner_pic`, `planner_status`) 
     VALUES ('$name', '$mail', '$dob', '$phone', '$desc', '$city', '$exp', '$achi', '$skill', '$partner', '$pwd', '$address2', '$pic', '$radio')";
     if($radio == 'confirm'){
-        $sql="INSERT INTO `login_users`( `login_mail`, `login_pass`,`login_role`) VALUES ('$mail', '$pwd', 2)";
+        $sql="INSERT INTO `login_users`( `login_name`,`login_mail`, `login_pass`,`login_role`) VALUES ('$name','$mail', '$pwd', 2)";
         $res=mysqli_query($conn,$sql);
        
     }

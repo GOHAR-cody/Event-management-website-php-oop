@@ -85,7 +85,7 @@ else {
         '$radio'
     )";
     if($radio == 'confirm'){
-        $sql="INSERT INTO `login_users`( `login_mail`, `login_pass`,`login_role`) VALUES ('$mail', '$pwd', 4)";
+        $sql="INSERT INTO `login_users`(`login_name`, `login_mail`, `login_pass`,`login_role`) VALUES ('$name','$mail', '$pwd', 4)";
         $res=mysqli_query($conn,$sql);
        
     }

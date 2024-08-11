@@ -16,15 +16,16 @@ if(empty($_SESSION['mail'])){
   <!-- for ios 7 style, multi-resolution icon of 152x152 -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-barstyle" content="black-translucent">
-  <link rel="apple-touch-icon" href="../assets/images/logo.png">
+ 
   <meta name="apple-mobile-web-app-title" content="Flatkit">
   <!-- for Chrome on Android, multi-resolution icon of 196x196 -->
   <meta name="mobile-web-app-capable" content="yes">
-  <link rel="shortcut icon" sizes="196x196" href="../assets/images/logo.png">
+  <link rel="shortcut icon" sizes="196x196" href="../assets/images/event2.png">
   
   <!-- style -->
   <link rel="stylesheet" href="../assets/glyphicons/glyphicons.css" type="text/css" />
-  <link rel="stylesheet" href="../assets/font-awesome/css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <link rel="stylesheet" href="../assets/material-design-icons/material-design-icons.css" type="text/css" />
   <link rel="stylesheet" href="../assets/bootstrap/dist/css/bootstrap.min.css" type="text/css" />
   <!-- build:css ../assets/styles/app.min.css -->

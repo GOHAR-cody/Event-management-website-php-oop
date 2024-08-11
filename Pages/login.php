@@ -52,6 +52,8 @@
         
         <button type="submit" name="submit" class="btn primary btn-block p-x-md">Sign in</button>
       </form>
+      <br>
+      <a style="margin-left:6em; color:#0cc2aa" href="../site/index.php"> Back to site </a>
     </div>
 
    

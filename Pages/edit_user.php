@@ -1,7 +1,7 @@
 <?php
 include('db.php');
 $id = $_GET['upid'];
-$que = "SELECT * FROM `users` WHERE `user_id`='$id'";
+$que = "SELECT * FROM `login_users` WHERE `login_id`='$id'";
 $res = mysqli_query($conn, $que);
 $users = mysqli_fetch_assoc($res);
 include('../include/header.php'); ?>
@@ -126,12 +126,12 @@ include('../include/sidebar.php');
                                 <p class="text-muted">Please fill the information to continue</p>
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" value="<?php echo $users['user_name']; ?>" name="name" class="form-control" placeholder="e.g. john"
+                                    <input type="text" value="<?php echo $users['login_name']; ?>" name="name" class="form-control" placeholder="e.g. john"
                                         required>
                                 </div>
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" value="<?php echo $users['user_mail']; ?>" name="mail" class="form-control" placeholder="example@gmail.com"
+                                    <input type="email" value="<?php echo $users['login_mail']; ?>" name="mail" class="form-control" placeholder="example@gmail.com"
                                         required>
                                 </div>
                                 
@@ -140,11 +140,11 @@ include('../include/sidebar.php');
                                 <div class="row m-b">
                                     <div class="col-sm-6">
                                         <label>Enter password</label>
-                                        <input type="password" name="pwd" value="<?php echo $users['user_pass']; ?>" class="form-control" required id="pwd">
+                                        <input type="password" name="pwd" value="<?php echo $users['login_pass']; ?>" class="form-control" required id="pwd">
                                     </div>
                                     <div class="col-sm-6">
                                         <label>Confirm password</label>
-                                        <input type="password" class="form-control" value="<?php echo $users['user_pass']; ?>" name="pwd2"
+                                        <input type="password" class="form-control" value="<?php echo $users['login_pass']; ?>" name="pwd2"
                                             data-parsley-equalto="#pwd" required>
                                     </div>
                                 </div>
@@ -158,7 +158,7 @@ include('../include/sidebar.php');
                                             $city_result = mysqli_query($conn, $city_query);
                                             while ($city = mysqli_fetch_assoc($city_result)) { ?>
                                             <option value="<?php echo $city['role_id']; ?>"
-                                                <?php echo ($users['user_role'] == $city['role_id']) ? 'selected' : ''; ?>>
+                                                <?php echo ($users['login_role'] == $city['role_id']) ? 'selected' : ''; ?>>
                                                 <?php echo $city['role_name']; ?></option>
                                             <?php } ?>
                                   ?>
@@ -168,7 +168,7 @@ include('../include/sidebar.php');
                             </div>
                           
                         </div>
-                        <input style="display:none" type="text" name="id" value="<?php echo $users['user_id'] ?>">
+                        <input style="display:none" type="text" name="id" value="<?php echo $users['login_id'] ?>">
                         <div class="dker p-a text-right">
                             <button type="submit" name="submit" class="btn info">Submit</button>
                         </div>

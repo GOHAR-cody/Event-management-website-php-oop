@@ -5,6 +5,12 @@ include('../Pages/db.php');
   $result = mysqli_query($conn, $sql);
   $ro= mysqli_fetch_assoc($result);
   $array= unserialize($ro['role_roles']);
+  
+ 
+  $sql="SELECT * FROM `images` ";
+  $res=mysqli_query($conn,$sql);
+  $ar=mysqli_fetch_assoc($res);
+
 
   ?>
   <!-- aside -->
@@ -12,26 +18,20 @@ include('../Pages/db.php');
       <!-- fluid app aside -->
       <div class="left navside dark dk" data-layout="column">
           <div class="navbar no-radius">
-              <!-- brand -->
-              <a class="navbar-brand">
-
-                  <img src="../assets/images/logo.png" alt="." class="hide">
-                  <span class="hidden-folded inline">ivents</span>
-              </a>
-              <!-- / brand -->
+             
+                  <img src="../uploads/<?php echo $ar['img_logo']; ?>" width="150px" height="150px" alt="." >
+                  
           </div>
-          <div class="hide-scroll" data-flex>
-              <nav class="scroll nav-light">
+          <div class="hide-scroll" data-flex style="margin-top:-40px">
+              <nav class="scroll nav-light" >
 
                   <ul class="nav" ui-nav>
-                      <li class="nav-header hidden-folded">
-                          <small class="text-muted">Main</small>
-                      </li>
+                     
 
                       <li>
                           <a href="dashboard.php">
                               <span class="nav-icon">
-                                  <i class="fa fa-home "></i>
+                              <i class="fa-solid fa-house"></i>
                               </span>
                               <span class="nav-text">Dashboard</span>
                           </a>
@@ -154,7 +154,7 @@ include('../Pages/db.php');
                                   <b class="label rounded label-sm primary"><?php echo $nums; ?></b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="fa fa-thumbs-o-up"></i>
+                              <i class="fa-solid fa-handshake-angle"></i>
                               </span>
                               <span class="nav-text">Volunteer</span>
                           </a>
@@ -256,7 +256,7 @@ include('../Pages/db.php');
                                   <b class="label rounded label-sm primary"><?php echo $nums  ?></b>
                               </span>
                               <span class="nav-icon">
-                                  <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                              <i class="fa-solid fa-newspaper"></i>
                               </span>
                               <span class="nav-text">News</span>
                           </a>
@@ -311,11 +311,17 @@ include('../Pages/db.php');
                       <?php 
                       }
                       if( $ro['role_access']=='all'|| in_array('client',$array )){
+                        $sql="SELECT * FROM `roles`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
                       ?>
                       <li>
                           <a>
                               <span class="nav-caret">
                                   <i class="fa fa-caret-down"></i>
+                              </span>
+                              <span class="nav-label">
+                                  <b class="label rounded label-sm primary"><?php echo $nums ; ?></b>
                               </span>
                               
                               <span class="nav-icon">
@@ -349,6 +355,27 @@ include('../Pages/db.php');
                       </li>
                       <?php 
                       }
+                      if( $ro['role_access']=='all'|| in_array('messgage',$array )){
+                        $sql="SELECT * FROM `messages`";
+                        $res= mysqli_query($conn,$sql);
+                        $nums=mysqli_num_rows($res);
+                      ?>
+                      <li>
+                          <a href="view_message.php">
+                           
+                          <span class="nav-label" style="margin-right:23px">
+                                  <b class="label rounded label-sm primary"><?php echo $nums ; ?></b>
+                              </span>
+                              
+                              <span class="nav-icon">
+                              <i class="fas fa-envelope" aria-hidden="true"></i>
+                              </span>
+                              <span class="nav-text">Messages</span>
+                          </a>
+                         
+                      </li>
+                      <?php 
+                      }
                      ?>
                   </ul>
 
@@ -358,7 +385,8 @@ include('../Pages/db.php');
               <div class="nav-fold">
                   <a href="profile.html">
                       <span class="pull-left">
-                          <img src="../assets/images/1.jpeg" alt="..." class="w-40 img-circle">
+                    
+                          <img src="../uploads/<?php echo $ar['img_profile']; ?>" alt="..." class="w-40 img-circle">
                       </span>
                       <span class="clear hidden-folded p-x">
                           <span class="block _500">GOHAR</span>
